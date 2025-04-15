@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Docs Team App</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        header h1 {
+            margin: 0;
+            padding: 0 20px;
+            display: inline-block;
+            font-size: 1.8em;
+            color: white;
+        }
+        
+        nav {
+            display: inline-block;
+            float: right;
+            padding: 0 20px;
+        }
+        
+        nav button {
+            background-color: #3498db;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin-left: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        nav button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .tab-content {
+            display: none;
+            background-color: white;
+            padding: 25px;
+            border-radius: 5px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active-tab {
+            display: block;
+        }
+        
+        .tabs {
+            margin-bottom: 20px;
+            background-color: #2c3e50;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            overflow-x: auto;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            background-color: rgba(44, 62, 80, 0.9);
+        }
+        
+        .tab-btn {
+            background-color: #34495e;
+            border: none;
+            padding: 12px 24px;
+            margin-right: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            white-space: nowrap;
+            flex-shrink: 0;
+            color: white;
+            font-weight: 500;
+        }
+        
+        .tab-btn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+        
+        .tab-btn.active {
+            background-color: #3498db;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input[type="text"], 
+        input[type="password"],
+        input[type="date"],
+        input[type="file"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border 0.3s;
+        }
+        
+        input[type="text"]:focus, 
+        input[type="password"]:focus,
+        input[type="date"]:focus,
+        input[type="file"]:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .task-table th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .task-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+        
+        .task-table tr:nth-child(even) {
+            background-color: #f8f9fa;
+        }
+        
+        .task-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        
+        .login-container, .register-container {
+            max-width: 400px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .login-container h2, .register-container h2 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        
+        .login-container button, .register-container button {
+            width: 100%;
+            padding: 12px;
+        }
+        
+        .error {
+            color: #e74c3c;
+            margin-top: 5px;
+        }
+        
+        .success {
+            color: #27ae60;
+            margin-top: 5px;
+        }
+        
+        .filter-container {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .filter-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        
+        .filter-group {
+            flex: 1;
+        }
+        
+        .sticky-note {
+            background-color: #fffacd;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            position: relative;
+            transition: all 0.3s;
+            border-left: 5px solid #f1c40f;
+        }
+        
+        .sticky-note:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .sticky-note h3 {
+            margin-top: 0;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+        
+        .sticky-note .note-date {
+            font-size: 0.8em;
+            color: #666;
+        }
+        
+        .sticky-note .note-actions {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        
+        .sticky-note .note-actions button {
+            padding: 5px 10px;
+            margin-left: 5px;
+            font-size: 0.8em;
+        }
+        
+        #json-input {
+            font-family: monospace;
+            min-height: 200px;
+        }
+        
+        #json-output {
+            font-family: monospace;
+            white-space: pre;
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            min-height: 200px;
+            overflow-x: auto;
+        }
+        
+        .json-container {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .json-section {
+            flex: 1;
+        }
+        
+        .toggle-auth {
+            text-align: center;
+            margin-top: 15px;
+        }
+        
+        .toggle-auth a {
+            color: #3498db;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        
+        .report-header {
+            background-color: #f2f2f2;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .report-header h3 {
+            margin-top: 0;
+        }
+        
+        .report-header p {
+            margin-bottom: 5px;
+        }
+        
+        .task-complete {
+            transform: scale(1.3);
+            cursor: pointer;
+        }
+        
+        .completed-task {
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+        
+        .task-comments {
+            width: 200px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Auth Screens -->
+    <div id="login-screen" class="login-container">
+        <h2>Tech Docs Team Login</h2>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <button onclick="login()">Login</button>
+        <div class="toggle-auth">
+            Don't have an account? <a href=# onclick="showRegister()">Register</a>
+        </div>
+        <p id="login-message" class="error"></p>
+    </div>
+
+    <div id="register-screen" class="register-container" style="display: none;">
+        <h2>Register New Account</h2>
+        <div class="form-group">
+            <label for="reg-username">Username</label>
+            <input type="text" id="reg-username" placeholder="Choose a username">
+        </div>
+        <div class="form-group">
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" placeholder="Choose a password">
+        </div>
+        <div class="form-group">
+            <label for="reg-name">Full Name</label>
+            <input type="text" id="reg-name" placeholder="Your full name">
+        </div>
+        <button onclick="register()">Register</button>
+        <div class="toggle-auth">
+            Already have an account? <a onclick="showLogin()">Login</a>
+        </div>
+        <p id="register-message" class="error"></p>
+    </div>
+
+    <!-- Main App (hidden until login) -->
+    <div id="app-container" style="display: none;">
+        <header>
+            <h1>Technical Documentation Team App</h1>
+            <nav>
+                <span id="welcome-message"></span>
+                <button onclick="logout()">Logout</button>
+            </nav>
+        </header>
+
+        <div class="container">
+            <div class="tabs">
+                <button class="tab-btn active" onclick="openTab('tasks-tab')">Daily Tasks</button>
+                <button class="tab-btn" onclick="openTab('reports-tab')">Task Reports</button>
+                <button class="tab-btn" onclick="openTab('json-tab')">JSON Beautifier</button>
+                <button class="tab-btn" onclick="openTab('notes-tab')">Sticky Notes</button>
+            </div>
+
+            <!-- Daily Tasks Tab -->
+            <div id="tasks-tab" class="tab-content active-tab">
+                <h2>Daily Task Management</h2>
+                <div class="form-group">
+                    <label for="task-date">Date</label>
+                    <input type="date" id="task-date">
+                </div>
+                
+                <h3>Add New Task</h3>
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>Document Type</th>
+                            <th>Document Name</th>
+                            <th>Ticket</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="new-tasks-container">
+                        <tr>
+                            <td>
+                                <select class="doc-type">
+                                    <option value="Technical">Technical</option>
+                                    <option value="Product">Product</option>
+                                    <option value="API">API Documentation</option>
+                                </select>
+                            </td>
+                            <td><input type="text" class="doc-name" placeholder="Document name" required></td>
+                            <td><input type="text" class="ticket" placeholder="Ticket #"></td>
+                            <td><input type="date" class="start-date" required></td>
+                            <td><input type="date" class="end-date" required></td>
+                            <td>
+                                <select class="doc-status">
+                                    <option value="Submitted for review">Submitted for review</option>
+                                    <option value="WIP">WIP</option>
+                                    <option value="Rework">Rework</option>
+                                </select>
+                            </td>
+                            <td><button onclick="addTask()">Add</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <h3>Today's Tasks</h3>
+                <table class="task-table">
+                    <thead>
+                        <tr>
+                            <th>Complete</th>
+                            <th>Document Type</th>
+                            <th>Document Name</th>
+                            <th>Ticket</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Status</th>
+                            <th>Comments</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasks-container">
+                        <!-- Tasks will be loaded here -->
+                    </tbody>
+                </table>
+                <button onclick="saveTasks()">Save All Tasks</button>
+                <p id="task-message"></p>
+            </div>
+
+            <!-- Task Reports Tab -->
+            <div id="reports-tab" class="tab-content">
+                <h2>Task Reports</h2>
+                
+                <div class="filter-container">
+                    <h3>Filter Tasks</h3>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="report-doc-type">Document Type</label>
+                            <select id="report-doc-type">
+                                <option value="">All Types</option>
+                                <option value="Technical">Technical</option>
+                                <option value="Product">Product</option>
+                                <option value="API">API Documentation</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="report-status">Status</label>
+                            <select id="report-status">
+                                <option value="">All Statuses</option>
+                                <option value="Submitted for review">Submitted for review</option>
+                                <option value="WIP">WIP</option>
+                                <option value="Rework">Rework</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="report-start-date">Start Date</label>
+                            <input type="date" id="report-start-date">
+                        </div>
+                        <div class="filter-group">
+                            <label for="report-end-date">End Date</label>
+                            <input type="date" id="report-end-date">
+                        </div>
+                    </div>
+                    <button onclick="filterTasks()">Apply Filters</button>
+                    <button onclick="resetFilters()">Reset Filters</button>
+                    <button onclick="generateDailyReport()">Generate Daily Report</button>
+                    <button onclick="generateMonthlyReport()">Generate Monthly Report</button>
+                </div>
+                
+                <div id="report-results">
+                    <!-- Report will be displayed here -->
+                </div>
+                
+                <div id="export-buttons" style="margin-top: 20px; display: none;">
+                    <button onclick="exportToExcel()" style="background-color: #27ae60;">Export to Excel</button>
+                    <button onclick="exportToWord()" style="background-color: #3498db;">Export to Word</button>
+                </div>
+            </div>
+
+            <!-- JSON Beautifier Tab -->
+            <div id="json-tab" class="tab-content">
+                <h2>JSON Beautifier</h2>
+                <div class="json-container">
+                    <div class="json-section">
+                        <label for="json-input">Paste your JSON here:</label>
+                        <textarea id="json-input" placeholder='{"key": "value"}'></textarea>
+                        <button onclick="beautifyJson()">Beautify JSON</button>
+                    </div>
+                    <div class="json-section">
+                        <label>Formatted JSON:</label>
+                        <div id="json-output">Formatted JSON will appear here...</div>
+                        <button onclick="copyJson()">Copy to Clipboard</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sticky Notes Tab -->
+            <div id="notes-tab" class="tab-content">
+                <h2>Sticky Notes</h2>
+                <div class="form-group">
+                    <label for="note-title">Title</label>
+                    <input type="text" id="note-title" placeholder="Note title">
+                </div>
+                <div class="form-group">
+                    <label for="note-content">Content</label>
+                    <textarea id="note-content" placeholder="Your note content"></textarea>
+                </div>
+                <button onclick="addNote()">Add Note</button>
+                
+                <div id="notes-container" style="margin-top: 30px;">
+                    <!-- Notes will be displayed here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User data storage
+        if (!localStorage.getItem('users')) {
+            localStorage.setItem('users', JSON.stringify([
+                { username: "techwriter1", password: "doc123", name: "John Doe" },
+                { username: "techwriter2", password: "doc456", name: "Jane Smith" },
+                { username: "admin", password: "admin123", name: "Admin" }
+            ]));
+        }
+
+        // Current user
+        let currentUser = null;
+
+        // Check for existing session on page load
+        window.onload = function() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showApp();
+            } else {
+                showLogin();
+            }
+        };
+
+        // Show login screen
+        function showLogin() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('login-message').textContent = '';
+        }
+
+        // Show register screen
+        function showRegister() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'block';
+            document.getElementById('app-container').style.display = 'none';
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-name').value = '';
+            document.getElementById('register-message').textContent = '';
+        }
+
+        // Register function
+        function register() {
+            const username = document.getElementById('reg-username').value.trim();
+            const password = document.getElementById('reg-password').value.trim();
+            const name = document.getElementById('reg-name').value.trim();
+            
+            if (!username || !password || !name) {
+                document.getElementById('register-message').textContent = 'All fields are required';
+                return;
+            }
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            
+            if (users.some(u => u.username === username)) {
+                document.getElementById('register-message').textContent = 'Username already exists';
+                return;
+            }
+            
+            users.push({ username, password, name });
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            document.getElementById('register-message').textContent = 'Registration successful! Please login';
+            document.getElementById('register-message').className = 'success';
+            
+            // Clear form
+            document.getElementById('reg-username').value = '';
+            document.getElementById('reg-password').value = '';
+            document.getElementById('reg-name').value = '';
+            
+            // Show login after short delay
+            setTimeout(showLogin, 1500);
+        }
+
+        // Login function
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            const users = JSON.parse(localStorage.getItem('users'));
+            const user = users.find(u => u.username === username && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showApp();
+            } else {
+                document.getElementById('login-message').textContent = 'Invalid username or password';
+            }
+        }
+
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            showLogin();
+        }
+
+        // Show the main app after login
+        function showApp() {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'block';
+            document.getElementById('welcome-message').textContent = `Welcome, ${currentUser.name}`;
+            
+            // Set today's date in task date field
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('task-date').value = today;
+            
+            // Set current date in report filters
+            const currentDate = new Date();
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0];
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0];
+            
+            document.getElementById('report-start-date').value = firstDay;
+            document.getElementById('report-end-date').value = lastDay;
+            
+            // Load today's tasks
+            loadTasks();
+            
+            // Load notes
+            loadNotes();
+            
+            // Open first tab by default
+            openTab('tasks-tab');
+        }
+
+        // Tab navigation
+        function openTab(tabId) {
+            // Hide all tab contents
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active-tab');
+            }
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.getElementsByClassName('tab-btn');
+            for (let i = 0; i < tabButtons.length; i++) {
+                tabButtons[i].classList.remove('active');
+            }
+            
+            // Show the selected tab content
+            document.getElementById(tabId).classList.add('active-tab');
+            
+            // Add active class to the clicked button
+            event.currentTarget.classList.add('active');
+        }
+
+        // Task Management Functions
+        function addTask() {
+            const taskDate = document.getElementById('task-date').value;
+            if (!taskDate) {
+                alert('Please select a date first');
+                return;
+            }
+            
+            const row = document.querySelector('#new-tasks-container tr');
+            const docType = row.querySelector('.doc-type').value;
+            const docName = row.querySelector('.doc-name').value.trim();
+            const ticket = row.querySelector('.ticket').value.trim();
+            const startDate = row.querySelector('.start-date').value;
+            const endDate = row.querySelector('.end-date').value;
+            const status = row.querySelector('.doc-status').value;
+            
+            if (!docName || !startDate || !endDate) {
+                alert('Document name and dates are required');
+                return;
+            }
+            
+            const taskId = Date.now(); // Unique ID for the task
+            
+            // Add to tasks container
+            const tasksContainer = document.getElementById('tasks-container');
+            const newRow = document.createElement('tr');
+            newRow.dataset.taskId = taskId;
+            newRow.innerHTML = `
+                <td><input type="checkbox" class="task-complete" onchange="toggleTaskComplete(this)"></td>
+                <td>${docType || 'N/A'}</td>
+                <td>${docName || 'N/A'}</td>
+                <td>${ticket || 'N/A'}</td>
+                <td>${startDate || 'N/A'}</td>
+                <td>${endDate || 'N/A'}</td>
+                <td>${status || 'N/A'}</td>
+                <td><input type="text" class="task-comments" placeholder="Add comments..."></td>
+                <td>
+                    <button onclick="editTask(this)">Edit</button>
+                    <button onclick="removeTask(this)" style="background-color: #e74c3c;">Delete</button>
+                </td>
+            `;
+            tasksContainer.appendChild(newRow);
+            
+            // Clear the input row
+            row.querySelector('.doc-name').value = '';
+            row.querySelector('.ticket').value = '';
+            row.querySelector('.start-date').value = '';
+            row.querySelector('.end-date').value = '';
+            
+            document.getElementById('task-message').textContent = 'Task added (remember to save)';
+            document.getElementById('task-message').className = 'success';
+        }
+
+        function toggleTaskComplete(checkbox) {
+            const row = checkbox.closest('tr');
+            if (checkbox.checked) {
+                row.classList.add('completed-task');
+            } else {
+                row.classList.remove('completed-task');
+            }
+        }
+
+        function editTask(button) {
+            const row = button.closest('tr');
+            const cells = row.cells;
+            
+            const docType = cells[1].textContent;
+            const docName = cells[2].textContent;
+            const ticket = cells[3].textContent;
+            const startDate = cells[4].textContent;
+            const endDate = cells[5].textContent;
+            const status = cells[6].textContent;
+            const comments = cells[7].querySelector('.task-comments').value;
+            
+            // Replace with inputs
+            cells[1].innerHTML = `
+                <select class="doc-type">
+                    <option value="Technical" ${docType === 'Technical' ? 'selected' : ''}>Technical</option>
+                    <option value="Product" ${docType === 'Product' ? 'selected' : ''}>Product</option>
+                    <option value="API" ${docType === 'API Documentation' ? 'selected' : ''}>API Documentation</option>
+                </select>
+            `;
+            cells[2].innerHTML = `<input type="text" class="doc-name" value="${docName}">`;
+            cells[3].innerHTML = `<input type="text" class="ticket" value="${ticket}">`;
+            cells[4].innerHTML = `<input type="date" class="start-date" value="${startDate}">`;
+            cells[5].innerHTML = `<input type="date" class="end-date" value="${endDate}">`;
+            cells[6].innerHTML = `
+                <select class="doc-status">
+                    <option value="Submitted for review" ${status === 'Submitted for review' ? 'selected' : ''}>Submitted for review</option>
+                    <option value="WIP" ${status === 'WIP' ? 'selected' : ''}>WIP</option>
+                    <option value="Rework" ${status === 'Rework' ? 'selected' : ''}>Rework</option>
+                </select>
+            `;
+            cells[7].innerHTML = `<input type="text" class="task-comments" value="${comments || ''}" placeholder="Add comments...">`;
+            cells[8].innerHTML = `
+                <button onclick="saveTaskEdit(this)">Save</button>
+                <button onclick="cancelTaskEdit(this)" style="background-color: #e74c3c;">Cancel</button>
+            `;
+        }
+
+        function saveTaskEdit(button) {
+            const row = button.closest('tr');
+            const taskId = row.dataset.taskId;
+            const cells = row.cells;
+            
+            const docType = cells[1].querySelector('.doc-type').value;
+            const docName = cells[2].querySelector('.doc-name').value.trim();
+            const ticket = cells[3].querySelector('.ticket').value.trim();
+            const startDate = cells[4].querySelector('.start-date').value;
+            const endDate = cells[5].querySelector('.end-date').value;
+            const status = cells[6].querySelector('.doc-status').value;
+            const comments = cells[7].querySelector('.task-comments').value;
+            
+            if (!docName || !startDate || !endDate) {
+                alert('Document name and dates are required');
+                return;
+            }
+            
+            // Update the row
+            cells[1].textContent = docType;
+            cells[2].textContent = docName;
+            cells[3].textContent = ticket;
+            cells[4].textContent = startDate;
+            cells[5].textContent = endDate;
+            cells[6].textContent = status;
+            cells[7].innerHTML = `<input type="text" class="task-comments" value="${comments || ''}" placeholder="Add comments...">`;
+            cells[8].innerHTML = `
+                <button onclick="editTask(this)">Edit</button>
+                <button onclick="removeTask(this)" style="background-color: #e74c3c;">Delete</button>
+            `;
+            
+            document.getElementById('task-message').textContent = 'Task updated (remember to save)';
+            document.getElementById('task-message').className = 'success';
+        }
+
+        function cancelTaskEdit(button) {
+            const row = button.closest('tr');
+            const taskId = row.dataset.taskId;
+            
+            // Reload the task from storage
+            loadTasks();
+        }
+
+        function removeTask(button) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                button.closest('tr').remove();
+                document.getElementById('task-message').textContent = 'Task removed (remember to save)';
+                document.getElementById('task-message').className = 'success';
+            }
+        }
+
+        function loadTasks() {
+            const taskDate = document.getElementById('task-date').value;
+            if (!taskDate) return;
+            
+            const allTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+            const dayTasks = allTasks.find(t => 
+                t.date === taskDate && t.user === currentUser.username);
+            
+            const container = document.getElementById('tasks-container');
+            container.innerHTML = '';
+            
+            if (!dayTasks || dayTasks.tasks.length === 0) {
+                return;
+            }
+            
+            dayTasks.tasks.forEach(task => {
+                const newRow = document.createElement('tr');
+                newRow.dataset.taskId = task.id;
+                newRow.innerHTML = `
+                    <td><input type="checkbox" class="task-complete" onchange="toggleTaskComplete(this)" ${task.completed ? 'checked' : ''}></td>
+                    <td>${task.docType || 'N/A'}</td>
+                    <td>${task.docName || 'N/A'}</td>
+                    <td>${task.ticket || 'N/A'}</td>
+                    <td>${task.startDate || 'N/A'}</td>
+                    <td>${task.endDate || 'N/A'}</td>
+                    <td>${task.status || 'N/A'}</td>
+                    <td><input type="text" class="task-comments" value="${task.comments || ''}" placeholder="Add comments..."></td>
+                    <td>
+                        <button onclick="editTask(this)">Edit</button>
+                        <button onclick="removeTask(this)" style="background-color: #e74c3c;">Delete</button>
+                    </td>
+                `;
+                if (task.completed) {
+                    newRow.classList.add('completed-task');
+                }
+                container.appendChild(newRow);
+            });
+        }
+
+        function saveTasks() {
+            const taskDate = document.getElementById('task-date').value;
+            if (!taskDate) {
+                document.getElementById('task-message').textContent = 'Please select a date';
+                document.getElementById('task-message').className = 'error';
+                return;
+            }
+            
+            const rows = document.querySelectorAll('#tasks-container tr');
+            const tasks = [];
+            
+            rows.forEach(row => {
+                const cells = row.cells;
+                tasks.push({
+                    id: row.dataset.taskId,
+                    docType: cells[1].textContent,
+                    docName: cells[2].textContent,
+                    ticket: cells[3].textContent,
+                    startDate: cells[4].textContent,
+                    endDate: cells[5].textContent,
+                    status: cells[6].textContent,
+                    comments: cells[7].querySelector('.task-comments').value,
+                    completed: cells[0].querySelector('.task-complete').checked
+                });
+            });
+            
+            if (tasks.length === 0) {
+                document.getElementById('task-message').textContent = 'No tasks to save';
+                document.getElementById('task-message').className = 'error';
+                return;
+            }
+            
+            // Get existing tasks or initialize
+            const allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+            // Remove any existing tasks for this date/user
+            const existingIndex = allTasks.findIndex(t => 
+                t.date === taskDate && t.user === currentUser.username);
+            
+            if (existingIndex !== -1) {
+                allTasks.splice(existingIndex, 1);
+            }
+            
+            // Add new tasks
+            allTasks.push({
+                date: taskDate,
+                user: currentUser.username,
+                tasks
+            });
+            
+            // Save to localStorage
+            localStorage.setItem('tasks', JSON.stringify(allTasks));
+            
+            document.getElementById('task-message').textContent = 'Tasks saved successfully!';
+            document.getElementById('task-message').className = 'success';
+        }
+
+        // Report Functions
+        function filterTasks() {
+            const docType = document.getElementById('report-doc-type').value;
+            const status = document.getElementById('report-status').value;
+            const startDate = document.getElementById('report-start-date').value;
+            const endDate = document.getElementById('report-end-date').value;
+            
+            const allTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+            
+            // Filter tasks based on criteria
+            const filteredTasks = allTasks.filter(day => {
+                // Filter by date range
+                if (startDate && day.date < startDate) return false;
+                if (endDate && day.date > endDate) return false;
+                
+                // Filter by user
+                if (day.user !== currentUser.username) return false;
+                
+                // Check if any tasks match the other filters
+                return day.tasks.some(task => {
+                    if (docType && task.docType !== docType) return false;
+                    if (status && task.status !== status) return false;
+                    return true;
+                });
+            });
+            
+            // Display results
+            displayFilteredTasks(filteredTasks);
+        }
+
+        function displayFilteredTasks(filteredDays) {
+            const resultsContainer = document.getElementById('report-results');
+            
+            if (filteredDays.length === 0) {
+                resultsContainer.innerHTML = '<p>No tasks found matching your criteria</p>';
+                document.getElementById('export-buttons').style.display = 'none';
+                return;
+            }
+            
+            let html = '';
+            
+            // Add report header
+            const startDate = document.getElementById('report-start-date').value;
+            const endDate = document.getElementById('report-end-date').value;
+            const docType = document.getElementById('report-doc-type').value;
+            const status = document.getElementById('report-status').value;
+            
+            html += '<div class="report-header">';
+            html += `<h3>Task Report</h3>`;
+            html += `<p>Generated by: ${currentUser.name}</p>`;
+            html += `<p>Date range: ${startDate || 'Start'} to ${endDate || 'End'}</p>`;
+            if (docType) html += `<p>Document type: ${docType}</p>`;
+            if (status) html += `<p>Status: ${status}</p>`;
+            html += '</div>';
+            
+            html += '<table class="task-table"><tr><th>Date</th><th>Document Type</th><th>Document Name</th><th>Ticket</th><th>Start Date</th><th>End Date</th><th>Status</th><th>Comments</th></tr>';
+            
+            filteredDays.forEach(day => {
+                day.tasks.forEach(task => {
+                    // Apply additional filters in case we got here by date/user filter only
+                    const docType = document.getElementById('report-doc-type').value;
+                    const status = document.getElementById('report-status').value;
+                    
+                    if (docType && task.docType !== docType) return;
+                    if (status && task.status !== status) return;
+                    
+                    html += `
+                        <tr>
+                            <td>${day.date}</td>
+                            <td>${task.docType || 'N/A'}</td>
+                            <td>${task.docName || 'N/A'}</td>
+                            <td>${task.ticket || 'N/A'}</td>
+                            <td>${task.startDate || 'N/A'}</td>
+                            <td>${task.endDate || 'N/A'}</td>
+                            <td>${task.status || 'N/A'}</td>
+                            <td>${task.comments || ''}</td>
+                        </tr>
+                    `;
+                });
+            });
+            
+            html += '</table>';
+            
+            // Add summary
+            const totalTasks = filteredDays.reduce((sum, day) => sum + day.tasks.length, 0);
+            html += `<p style="margin-top: 15px;"><strong>Total tasks: ${totalTasks}</strong></p>`;
+            
+            resultsContainer.innerHTML = html;
+            document.getElementById('export-buttons').style.display = 'block';
+        }
+
+        function resetFilters() {
+            document.getElementById('report-doc-type').value = '';
+            document.getElementById('report-status').value = '';
+            
+            const currentDate = new Date();
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).toISOString().split('T')[0];
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).toISOString().split('T')[0];
+            
+            document.getElementById('report-start-date').value = firstDay;
+            document.getElementById('report-end-date').value = lastDay;
+            
+            filterTasks();
+        }
+
+        function generateDailyReport() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('report-start-date').value = today;
+            document.getElementById('report-end-date').value = today;
+            filterTasks();
+        }
+
+        function generateMonthlyReport() {
+            const month = new Date().getMonth() + 1;
+            const year = new Date().getFullYear();
+            
+            const allTasks = JSON.parse(localStorage.getItem('tasks') || []);
+            
+            // Filter tasks for the current month and user
+            const monthTasks = allTasks.filter(day => {
+                const taskDate = new Date(day.date);
+                return taskDate.getMonth() + 1 === month && 
+                       taskDate.getFullYear() === year &&
+                       day.user === currentUser.username;
+            });
+            
+            const resultsContainer = document.getElementById('report-results');
+            
+            if (monthTasks.length === 0) {
+                resultsContainer.innerHTML = '<p>No tasks found for this month</p>';
+                document.getElementById('export-buttons').style.display = 'none';
+                return;
+            }
+            
+            // Add report header
+            let html = '<div class="report-header">';
+            html += `<h3>Monthly Report - ${getMonthName(month)} ${year}</h3>`;
+            html += `<p>Generated by: ${currentUser.name}</p>`;
+            html += `<p>Generated on: ${new Date().toISOString().split('T')[0]}</p>`;
+            html += '</div>';
+            
+            // Get unique submitted documents
+            const submittedDocs = [];
+            const uniqueDocs = new Set();
+            
+            monthTasks.forEach(day => {
+                day.tasks.forEach(task => {
+                    if (task.status === 'Submitted for review') {
+                        const docKey = `${task.docType}|${task.docName}`;
+                        if (!uniqueDocs.has(docKey)) {
+                            uniqueDocs.add(docKey);
+                            submittedDocs.push({
+                                docType: task.docType,
+                                docName: task.docName,
+                                startDate: task.startDate,
+                                endDate: task.endDate,
+                                duration: calculateDuration(task.startDate, task.endDate)
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Generate report HTML
+            if (submittedDocs.length > 0) {
+                html += '<h4>Submitted Documents</h4>';
+                html += '<table class="task-table"><tr><th>Document Type</th><th>Document Name</th><th>Start Date</th><th>End Date</th><th>Duration (days)</th></tr>';
+                
+                submittedDocs.forEach(doc => {
+                    html += `
+                        <tr>
+                            <td>${doc.docType || 'N/A'}</td>
+                            <td>${doc.docName || 'N/A'}</td>
+                            <td>${doc.startDate || 'N/A'}</td>
+                            <td>${doc.endDate || 'N/A'}</td>
+                            <td>${doc.duration}</td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</table>';
+            }
+            
+            // Add all tasks table
+            html += '<h4>All Tasks</h4>';
+            html += '<table class="task-table"><tr><th>Date</th><th>Document Type</th><th>Document Name</th><th>Ticket</th><th>Start Date</th><th>End Date</th><th>Status</th><th>Comments</th></tr>';
+            
+            monthTasks.forEach(day => {
+                day.tasks.forEach(task => {
+                    html += `
+                        <tr>
+                            <td>${day.date}</td>
+                            <td>${task.docType || 'N/A'}</td>
+                            <td>${task.docName || 'N/A'}</td>
+                            <td>${task.ticket || 'N/A'}</td>
+                            <td>${task.startDate || 'N/A'}</td>
+                            <td>${task.endDate || 'N/A'}</td>
+                            <td>${task.status || 'N/A'}</td>
+                            <td>${task.comments || ''}</td>
+                        </tr>
+                    `;
+                });
+            });
+            
+            html += '</table>';
+            
+            // Add statistics
+            const totalTasks = monthTasks.reduce((sum, day) => sum + day.tasks.length, 0);
+            const completedTasks = monthTasks.reduce((sum, day) => {
+                return sum + day.tasks.filter(t => t.status === 'Submitted for review').length;
+            }, 0);
+            
+            html += '<h4>Monthly Statistics</h4>';
+            html += `<p>Total tasks: ${totalTasks}</p>`;
+            html += `<p>Completed documents: ${completedTasks}</p>`;
+            html += `<p>Completion rate: ${Math.round((completedTasks / totalTasks) * 100)}%</p>`;
+            
+            resultsContainer.innerHTML = html;
+            document.getElementById('export-buttons').style.display = 'block';
+        }
+
+        function calculateDuration(startDate, endDate) {
+            if (!startDate || !endDate) return 'N/A';
+            
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const diffTime = Math.abs(end - start);
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // Add 1 to include both start and end days
+        }
+
+        function getMonthName(month) {
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
+                           'July', 'August', 'September', 'October', 'November', 'December'];
+            return months[month - 1];
+        }
+
+        function exportToExcel() {
+            const table = document.querySelector('#report-results table');
+            if (!table) {
+                alert('No report data to export');
+                return;
+            }
+            
+            let csvContent = '';
+            
+            // Add headers
+            const headers = [];
+            table.querySelectorAll('th').forEach(th => {
+                headers.push(th.textContent);
+            });
+            csvContent += headers.join(',') + '\n';
+            
+            // Add rows
+            table.querySelectorAll('tr').forEach(tr => {
+                const row = [];
+                tr.querySelectorAll('td').forEach(td => {
+                    row.push(td.textContent);
+                });
+                if (row.length > 0) {
+                    csvContent += row.join(',') + '\n';
+                }
+            });
+            
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            
+            // Determine filename based on report type
+            let filename = 'task-report';
+            if (document.querySelector('#report-results h3').textContent.includes('Monthly')) {
+                filename = `monthly-report-${getMonthName(new Date().getMonth()+1)}-${new Date().getFullYear()}`;
+            } else {
+                filename = `daily-report-${new Date().toISOString().split('T')[0]}`;
+            }
+            
+            a.download = `${filename}.csv`;
+            a.click();
+        }
+
+        function exportToWord() {
+            const reportContent = document.getElementById('report-results').innerHTML;
+            const preHtml = `<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Tech Docs Report</title></head><body>`;
+            const postHtml = `</body></html>`;
+            const html = preHtml + reportContent + postHtml;
+
+            const blob = new Blob(['\ufeff', html], {
+                type: 'application/msword'
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            
+            let filename = 'task-report';
+            if (document.querySelector('#report-results h3').textContent.includes('Monthly')) {
+                filename = `monthly-report-${getMonthName(new Date().getMonth()+1)}-${new Date().getFullYear()}`;
+            } else {
+                filename = `daily-report-${new Date().toISOString().split('T')[0]}`;
+            }
+            
+            a.download = `${filename}.doc`;
+            a.click();
+        }
+
+        // JSON Beautifier Functions
+        function beautifyJson() {
+            const jsonInput = document.getElementById('json-input').value.trim();
+            
+            if (!jsonInput) {
+                alert('Please enter JSON to format');
+                return;
+            }
+            
+            try {
+                const parsedJson = JSON.parse(jsonInput);
+                const formattedJson = JSON.stringify(parsedJson, null, 2);
+                document.getElementById('json-output').textContent = formattedJson;
+                
+                // Simple syntax highlighting
+                applyJsonSyntaxHighlighting();
+            } catch (e) {
+                document.getElementById('json-output').textContent = 'Invalid JSON: ' + e.message;
+            }
+        }
+
+        function applyJsonSyntaxHighlighting() {
+            const output = document.getElementById('json-output');
+            let text = output.textContent;
+            
+            // Very basic highlighting (in a real app, use a library)
+            text = text.replace(/("[\w]+":)/g, '<span style="color: #d14;">$1</span>');
+            text = text.replace(/: ("[^"]+")/g, ': <span style="color: #099;">$1</span>');
+            text = text.replace(/: ([\d\.]+)/g, ': <span style="color: #099;">$1</span>');
+            text = text.replace(/: (true|false|null)/g, ': <span style="color: #099;">$1</span>');
+            
+            output.innerHTML = text;
+        }
+
+        function copyJson() {
+            const output = document.getElementById('json-output');
+            const range = document.createRange();
+            range.selectNode(output);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            
+            alert('JSON copied to clipboard');
+        }
+
+        // Sticky Notes Functions
+        function addNote() {
+            const title = document.getElementById('note-title').value.trim();
+            const content = document.getElementById('note-content').value.trim();
+            
+            if (!title || !content) {
+                alert('Both title and content are required');
+                return;
+            }
+            
+            const noteId = Date.now();
+            const noteDate = new Date().toLocaleString();
+            
+            // Initialize notes properly if they don't exist
+            let allNotes = JSON.parse(localStorage.getItem('notes'));
+            if (!allNotes) {
+                allNotes = {};
+            }
+            if (!allNotes[currentUser.username]) {
+                allNotes[currentUser.username] = [];
+            }
+            
+            // Add new note
+            allNotes[currentUser.username].push({
+                id: noteId,
+                title,
+                content,
+                date: noteDate
+            });
+            
+            localStorage.setItem('notes', JSON.stringify(allNotes));
+            document.getElementById('note-title').value = '';
+            document.getElementById('note-content').value = '';
+            loadNotes();
+        }
+
+        function loadNotes() {
+            const allNotes = JSON.parse(localStorage.getItem('notes')) || {};
+            const userNotes = allNotes[currentUser.username] || [];
+            
+            const container = document.getElementById('notes-container');
+            container.innerHTML = '';
+            
+            if (userNotes.length === 0) {
+                container.innerHTML = '<p>No notes yet. Add your first note above!</p>';
+                return;
+            }
+            
+            // Display notes in reverse chronological order
+            userNotes.slice().reverse().forEach(note => {
+                const noteElement = document.createElement('div');
+                noteElement.className = 'sticky-note';
+                noteElement.dataset.noteId = note.id;
+                noteElement.innerHTML = `
+                    <div class="note-actions">
+                        <button onclick="editNote(${note.id})">Edit</button>
+                        <button onclick="deleteNote(${note.id})" style="background-color: #e74c3c;">Delete</button>
+                    </div>
+                    <h3>${note.title}</h3>
+                    <div class="note-date">${note.date}</div>
+                    <p>${note.content.replace(/\n/g, '<br>')}</p>
+                `;
+                container.appendChild(noteElement);
+            });
+        }
+
+        function editNote(noteId) {
+            const allNotes = JSON.parse(localStorage.getItem('notes')) || {};
+            const userNotes = allNotes[currentUser.username] || [];
+            const noteIndex = userNotes.findIndex(n => n.id === noteId);
+            
+            if (noteIndex === -1) return;
+            
+            const note = userNotes[noteIndex];
+            
+            // Populate the form
+            document.getElementById('note-title').value = note.title;
+            document.getElementById('note-content').value = note.content;
+            
+            // Remove the note (will be re-added when saved)
+            userNotes.splice(noteIndex, 1);
+            localStorage.setItem('notes', JSON.stringify(allNotes));
+            
+            // Reload notes to remove the edited one from display
+            loadNotes();
+        }
+
+        function deleteNote(noteId) {
+            if (!confirm('Are you sure you want to delete this note?')) return;
+            
+            const allNotes = JSON.parse(localStorage.getItem('notes')) || {};
+            const userNotes = allNotes[currentUser.username] || [];
+            const noteIndex = userNotes.findIndex(n => n.id === noteId);
+            
+            if (noteIndex === -1) return;
+            
+            userNotes.splice(noteIndex, 1);
+            localStorage.setItem('notes', JSON.stringify(allNotes));
+            
+            loadNotes();
+        }
+    </script>
+</body>
+</html>
